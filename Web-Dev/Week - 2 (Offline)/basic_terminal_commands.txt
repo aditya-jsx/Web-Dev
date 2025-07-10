@@ -1,0 +1,58 @@
+Linux/Mac Command          | Windows (Command Prompt) Equivalent       | Purpose
+
+1) pwd                     | cd                                        | Show current-directory
+0                                                                     (present working directory)
+
+2) cd                      | cd                                        | Change directory
+
+3) ls                      | dir                                       | List files and folders
+
+4) mkdir                   | mkdir                                     | Create a new folder
+
+5) touch                   | type nul > filenameorcopy con filename    | Create a new empty file
+
+
+6) cat filename            | type filename                             | Display contents of a file
+
+7) vi filename             | Use notepad filename                      | Open file in a text-editor                                                                      0                                                                       (Windows doesn’t have vi)
+
+8) mv source target        | move source target                        | Move or rename files/folders
+
+9) cp source target        | copy source target                        | Copy files
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+cd             # Shows current directory (same as pwd)
+cd Documents   # Changes to Documents folder
+dir            # Lists files and folders
+mkdir newFolder    # Creates a new folder called newFolder
+type nul > file.txt   # Creates an empty file.txt
+type file.txt             # Shows content of file.txt
+notepad file.txt          # Opens file.txt in Notepad for editing
+move oldname.txt newname.txt   # Renames oldname.txt to newname.txt
+move file.txt D:\NewFolder\    # Moves file.txt to another folder
+copy file.txt copyfile.txt     # Copies file.txt to copyfile.txt
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-> node - typing node on the terminal gives you a playground where we can run amd test our node code.
+to exit we have to do ctrl+C 2 times or write .exit
+
+-> we can also use node command to run a js file, like (node index.js)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+

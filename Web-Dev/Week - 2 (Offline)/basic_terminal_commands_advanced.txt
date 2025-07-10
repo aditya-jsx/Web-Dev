@@ -1,0 +1,106 @@
+-> we can see the files inside a directory - dir fileName
+it'll show all the files that are present in that directory.
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-> To look at the hidden files ---> (dir /a)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-> For sorting files according to the dates ---> (dir /o:d) and for reverse (dir /o:-d)
+
+-> For sorting files according to thier size ---> (dir /o:s) and for reverse (dir /o:-s)
+
+-> For specific file type ---> (dir *.txt)
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-> To make folders inside forders ---> mkdir Frontend\Scripts (makes a folder Frontend and inside of it makes a folder Scripts)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-> To delete a file ---> del fileName.txt
+
+-> To delete a folder ---> rmdir Filename /s /q  (now /s is used to delete all the files present inside the folder and /q is used to do it in the quiet mode without using )
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-> To grant user the permission to read, write or do anything to a file ---> icalcs "fileName.txt" /grant UserName:(letter for permission)
+
+-> To revoke the permission from user to read, write or do anything to a file ---> icalcs "fileName.txt" /deny UserName:(letter for permission)
+
+Code | Meaning
+
+R    | Read
+W    | Write
+F    | Full Control
+M    | Modify
+RX   | Read & Execute
+D    | Delete
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-> View the First N Lines ---> View the First N Lines 
+
+-> View the Last N Lines ---> Get-Content filename.txt | Select-Object -Last 5
+
+-> View a Specific Line Number ---> (Get-Content filename.txt)[9]
+
+-> View a Range of Lines ---> (Get-Content filename.txt)[9..14]
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-> Count Number of Lines ---> (Get-Content filename.txt).Count
+-> Count Total Characters ---> (Get-Content filename.txt -Raw).Length
+-> Count Words ---> ((Get-Content filename.txt -Raw) -split '\s+').Count
+-> Count Lines, Words, and Characters Together ---> 
+
+$txt = Get-Content filename.txt -Raw; 
+$lines = ($txt -split "`n").Count
+$words = ($txt -split '\s+').Count
+$chars = $txt.Length
+"Lines: $lines, Words: $words, Characters: $chars"
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-> To check the occurrence of a specific word in a file ---> 
+
+(Get-Content filename.txt -Raw) -split '\s+' | Where-Object { $_ -eq 'word' } | Measure-Object | Select-Object -ExpandProperty Count
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+

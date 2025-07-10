@@ -1,0 +1,29 @@
+Original Notes:- https://www.canva.com/design/DAGStTo7_1Y/H-uoNlkdJ2X4P3LbOME45Q/edit
+
+React --> basically it is 3 things which are, 
+state, components and re-rendering.
+
+State :- Data that we work on, 
+Component :- a wireframe in which our state is shown, 
+Re-rendering :- happens whenever the state changes.
+
+--> In react we don't have to re-render things by our own, react does that for us, we just have to tell what needs to be done when the state changes.
+
+--> The reason of creating react was to make something that only re-renders the things which are changed not the entire project.
+
+--> useState hook - used to change the state, it returns two things but in an array.
+it is written like this,
+const [count, setCount] = useState(0);   this is known as array destructuring
+
+
+- it can also be like this which is a bit confusing,
+const value = useState(0);
+const count = value[0];
+const setCount = value[1];
+
+
+Q - How are we able to update the count even if it is a const?
+--> because the array is a const but it's elements are not const so we can change them.
+
+
+
