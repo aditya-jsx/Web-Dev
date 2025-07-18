@@ -186,15 +186,32 @@ app.put("/", function(req, res){
 
 
     //! 14) checking each kidney whether it is healthy or not, replacing the unhelathy ones with the healty ones
-    for(let i = 0; i < users[0].kidneys.length; i++){
-        if(users[0].kidneys[i].healthy === false){
-            users[0].kidneys[i].healthy = true;
-        }  
-    }
-    res.json({
-        msg: "kidneys replaced"
-    });
+    // for(let i = 0; i < users[0].kidneys.length; i++){
+    //     if(users[0].kidneys[i].healthy === false){
+    //         users[0].kidneys[i].healthy = true;
+    //     }
+    // }
+    // res.json({
+    //     msg: "kidneys replaced"
+    // });
 
+
+
+
+    //! 16.2) if no unhealthy kidneys to replace then return 411
+    if(isThereAnyUnhealthyKidneys()){
+        // const healthyOnes = [];
+        for(let i = 0; i<users[0].kidneys.length; i++){
+            users[0].kidneys[i].healthy = true;
+        }
+        res.json({
+            msg: "kidneys replaced"
+        })
+    }else{
+        res.status(411).json({
+            msg: "no unhealthy kidneys, i'll start removing healthy ones if you send this request one more time"
+        })
+    }
 
 
 
@@ -212,7 +229,9 @@ app.put("/", function(req, res){
 app.delete("/", function(req, res){
     // const isHealthy = req.body.isHealthy;
 
-    users[0].kidneys = users[0].kidneys.filter(k => k.healthy);     //! already checking for true
+
+    //! 15) code for the same
+    // users[0].kidneys = users[0].kidneys.filter(k => k.healthy);     //! already checking for true
     // users[0].kidneys = users[0].kidneys.filter(k => k.healthy === true);   //! explicitly stated to check for true
     //! both lines does the same job
 
@@ -221,22 +240,71 @@ app.delete("/", function(req, res){
     // users[0].kidneys = newArray    for demo only.(this is not a part of actual code written here)
 
 
-    res.json({
-        msg: "unhealthy kidneys removed"
-    });
 
 
-    
+
+    //! 16.1) if no unhealthy kidneys then return 411(wrong approach)
+
+    // const newkidneys = [];
+    // for(let i = 0; i<users[0].kidneys.length; i++){
+    //     if(users[0].kidneys[i].healthy === false){
+    //         const heathyone = users[0].kidneys[i].healthy = true;
+    //         newkidneys.push(heathyone);
+    //         res.json({
+    //             msg: "unhealthy kidneys removed"
+    //         });
+    //     }else{
+    //         res.status(411).json({
+    //                 msg: "no unhealthy kidneys to remove bihhh"
+    //         })
+    //     }
+    // }
+
+
+    //! 16.3) correct approach
+
+    if(isThereAnyUnhealthyKidneys()){
+        const newkidneys = [];
+        for(let i = 0; i < users[0].kidneys.length; i++){
+            if(users[0].kidneys[i].healthy === false){
+                newkidneys.push({
+                    healthy: true
+                })
+            }
+        }
+        users[0].kidneys = newkidneys;
+        res.json({
+            msg: "unhealthy kidneys removed"
+        })
+    }else{
+        res.status(411).json({
+            msg: "no unhealthy kidneys to remove bihhh"
+        })
+    }
+
+
 })
+
+//! 16.2) function for doing that(we can declare funciton outside of requests as well)
+function isThereAnyUnhealthyKidneys(){
+    // let atLeastOneUnhealthyKidney = false;
+    for(let i = 0; i<users[0].kidneys.length; i++){
+        if(users[0].kidneys[i].healthy === false){
+            return true;
+        }
+    }    
+
+    return false;
+}
 
 
 
 //! 16) now what if someone sends the wrong request then the postman will show error and the user could be able to see some other, which is not right so we have to return some status codes like 411 which stands for wrong input.
 
+//! if there's no unhealthy kidneys to delete and user still runs the delete request then the system should return (411)
+//! if users says to convert all the unhealthy kidneys to healthy kidneys but there isn't any then the system should return (411).
 
-
-
-
+//! understand more and do assignments first
 
 
 
