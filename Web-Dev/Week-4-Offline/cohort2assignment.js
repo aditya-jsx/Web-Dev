@@ -20,6 +20,7 @@
 
 
 
+const { error } = require("console");
 const express = require("express");
 const app = express();
 
@@ -27,18 +28,22 @@ const fs = require("fs");
 const path = require("path");
 
 
+app.use(express.json());
+
+
 
 //! 
 const FILES_DIR = path.join(__dirname, "files");
-//! dirname means current location deirectiry nnle
-// and then path.join is uesd to concatenate the address to the folder and it the file in that directory on which we have to do some operations'
+//! dirname means current location directory name
+// path.join is used to join the current path of the directory(where the script is running) __dirname AND the folder named files
+// basically it join the current path to the folder named files
 
 
 
 
 
 app.get("/files", function(req, res){
-    
+
     // fs.readFile("a.txt", function(err, data){
     //     res.json({
     //         msg: data.toString(),
@@ -47,17 +52,48 @@ app.get("/files", function(req, res){
 
     //! to read files present in the directory
 
-    fs.readdir(FILES_DIR, (err, files)=>{
+
+    //! readdir is used to read the content of a specified directory.
+    fs.readdir(FILES_DIR, (err, data)=>{
         if(err){
-            res.status(500).json({
+            res.status(404).json({
                 error: "can't read files directory",
             })
         }else{
-            res.status(200).json(files)
+            res.status(200).json(data)
         }
     })
 
 })
+
+
+
+
+
+
+
+//! GET /file/:filename - Returns content of given file by name
+
+app.get("/files/:filename", function(req, res){
+
+    const filePath = path.join(__dirname, "/files/", req.params.filename);
+
+    fs.readFile(filePath, "utf8", (err, data)=>{
+        if(err){
+            res.status(404).json({
+                error: "file not found",
+            })
+        }else{
+            res.status(200).json(data);
+        }
+    })
+})
+// finally it is done, route was file but http request was files.
+
+
+
+
+
 
 
 
