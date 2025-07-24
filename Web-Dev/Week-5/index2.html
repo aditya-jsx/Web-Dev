@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    <!-- this is how we can import axios into our code without importing it like we do it in node projects -->
+</head>
+  
+<body>
+
+    <h2>Using Axios</h2>
+    
+    <!--! 1) Axios is an external library, which makes the syntax of sending a request slightly easier, it is an http client -->
+
+    <div id="posts"></div>
+    
+
+    <script>
+
+      // async function loadData(){
+      //   const response = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
+      //   document.getElementById("posts").innerHTML = response.data.title;
+      //   // 2) to get the data from the response, we use response.data and after this we can get the key that we want to get the value of.
+      // }
+      // loadData();
+      
+      // 3) if the given data is an array then we can do this
+      async function loadData(){
+        const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+        const data = response.data;
+        data.map((items)=>{
+          document.getElementById("posts").innerHTML += "<div>" + items.title + "</div>";
+        })
+        // we have to add the posts so that it does't overrides every post.
+      }
+      loadData();
+
+      // to make it dynamic we can call this loadData function whenever we click on a button so that the request goes whwnever we click that button.
+
+
+      // now the question is why we response.data, because the axios request can contain many things like the status codes and headers but we only want to use the data so we are using response.data
+
+
+
+
+    </script>
+</body>
+  
+</html>

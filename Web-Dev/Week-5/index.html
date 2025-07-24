@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    Posts
+    <div id="posts"></div>
+
+    <script>
+      async function getMorePosts() {
+        const todoData = await fetch(
+          "https://jsonplaceholder.typicode.com/todos/1",
+          {
+            method: "GET",
+            headers: {
+              Cookie: "anything",
+            },
+            // body: {},
+          },
+        );
+
+        // 5) now we have to convert this data into json, (sometimes when we know that it is returning atext then we can use .text() )
+        const todoDataJson = await todoData.json();
+        console.log(todoDataJson);
+        
+        // 6) now we can use this data in our html
+        document.getElementById("posts").innerHTML = todoDataJson.id;
+        
+      }
+
+      
+      getMorePosts();
+      // 1) we can aslo specify our request in the second argument of the fetch request
+
+      // 2) now the question is how can we use this data,
+      // 3) this fetch funcion returns a response object which is a promise
+      // fetch returns a promise and we have to await on that promise, inside an async function
+
+      // 4) now why fetch returns a promise, because it goes through so many routers to the server and back to the client, which takes some time to complete, so it returns a promise
+    </script>
+  </body>
+</html>
+
+
+
+
+<!--! After this look index2.js for Axios -->
+
+
