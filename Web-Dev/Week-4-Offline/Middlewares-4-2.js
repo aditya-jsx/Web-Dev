@@ -6,7 +6,7 @@
 //! In simple words (express) is just to middlewares chained one after the another.
 
 
-// it is a funciton with access to the request onject, response object and the next middleware funciton on the application's req-res cycle,
+// it is a funciton with access to the request object, response object and the next middleware funciton on the application's req-res cycle,
 // next middleware is commonly denoted by the next variable.
 
 //! Middlewares can :-
@@ -45,7 +45,7 @@ const express = require("express");
 const app = express();
 
 
-//! 2) a function as a check for age which will return a boolean(this is out ticket checker)
+//! 2) a function as a check for age which will return a boolean(this is our ticket checker)
 function isYoungEnough(age){
     if(age>=14){
         return true;
@@ -95,7 +95,7 @@ function isYoungEnough(age){
 
 
 //! 5.2) this is a middleware
-function isYoungEnoughMiddleware(req, res , next){
+function isYoungEnoughMiddleware(req, res, next){
     const age = req.query.age;      // have to extract the age as well
     if(age>=14){
         next();     // we have to return the (next) function not the boolean, it means if logic=true, go to next middleware
@@ -105,7 +105,7 @@ function isYoungEnoughMiddleware(req, res , next){
         });
     }
 }
-//! 5.3) now that is (next) here, it is funciton which gives the access to the next middleware, and we dont't have to pass any req or res in it, express takes care of that, 
+//! 5.3) now what is (next) here, it is funciton which gives the access to the next middleware, and we dont't have to pass any req or res in it, express takes care of that, 
 //! if the logic becomes true then the request passes to the next middleware otherwise it stops there that is what happening in the else block
 
 //! this helps the routes to do what they are supposed of doing, that is to tell whether you are eligible to ride or not.
@@ -117,7 +117,7 @@ function isYoungEnoughMiddleware(req, res , next){
 
 
 //! 6) now how to call the middlewares in the routes
-//! we kow that the express application is a series of middleware funciton calls, then we'll call it as a function, before the req, res function so that it gets called early
+//! we know that the express application is a series of middleware funciton calls, then we'll call it as a function, before the req, res function so that it gets called early
 app.get("/ride1", isYoungEnoughMiddleware, function(req, res){
         res.json({
             msg: "you are eligible to go on ride 1"

@@ -95,9 +95,6 @@ app.get("/todos/:id", function(req, res){
 
 
 
-
-//! used body parsing middleware
-
 app.post("/todos", function(req, res){
 
   const id = parseInt(req.body.id);

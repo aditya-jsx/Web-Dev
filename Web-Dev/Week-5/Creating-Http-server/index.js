@@ -122,6 +122,7 @@ function subtract(a, b){
 app.get("/sum/:a/:b", function(req, res) {
     const a = parseInt(req.params.a);
     const b = parseInt(req.params.b);
+    // we are using parseInt so that they don't become strings, as when we add strings it'll be             "1" + "2" = "12", and we don't want this
 
     res.json((sum(a, b)))
 });
