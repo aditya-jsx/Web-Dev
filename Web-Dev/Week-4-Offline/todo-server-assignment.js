@@ -39,3 +39,147 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
+
+
+
+
+const express = require("express")
+const app = express();
+app.use(express.json());
+
+
+const todos = [{
+  id: 0,
+  title: "",
+  desciption: "",
+  completed: true,
+},
+{
+  id: 1,
+  title: "One",
+  desciption: "oneoneonoen",
+  completed: true,
+},
+{
+  id: 2,
+  title: "Two",
+  desciption: "twotwotowtowtow",
+  completed: true,
+},
+
+]
+
+
+
+
+app.get("/todos", function(req, res){
+  res.json({todos});
+})
+
+
+
+app.get("/todos/:id", function(req, res){
+
+  const id = req.params.id;
+  const specificTodo = todos.find(t => t.id === parseInt(id));
+  if(!specificTodo){
+    res.status(404).json({
+      msg: `todo with id = ${id} is not available`,
+    })
+  }else{
+    res.json({specificTodo})
+  }
+  
+})
+
+
+
+
+//! used body parsing middleware
+
+app.post("/todos", function(req, res){
+
+  const id = parseInt(req.body.id);
+  const title = req.body.title;
+  const description = req.body.description;
+  const completed = req.body.completed;
+
+  const specificTodo = todos.find(t => t.id === parseInt(id));
+  if(specificTodo){
+    res.status(404).json({
+      msg: `todo with id = ${id} is already available`,
+    })
+  }
+  else{
+    todos.push({
+      id: id,
+      title: title,
+      desciption: description,
+      completed: completed,
+    })
+    res.status(201).json({
+      msg: "todo added."
+    })
+  }
+
+})
+
+
+
+
+
+
+app.put("/todos", function(req, res){
+
+  const id = parseInt(req.body.id);
+  const title = req.body.title;
+  const description = req.body.description;
+  const completed = req.body.completed;
+
+  const specificTodo = todos.find(t => t.id === parseInt(id));
+  if(specificTodo){
+    specificTodo.title = title;
+    specificTodo.desciption = description;
+    specificTodo.completed = completed;
+    res.status(200).json({
+      msg: `todo with id = ${id} is updated`,
+    })
+  }else{
+    res.status(404).json({
+      msg: `todo with id = ${id} not found`,
+    })
+  }
+})
+
+
+
+
+
+
+
+app.delete("/todos/:id", function(req, res){
+
+  const id = req.params.id;
+  const specificTodo = todos.find(t => t.id === parseInt(id));
+  if(specificTodo){
+    todos.splice(id, 1);
+    res.status(200).json({
+      msg: `todo with id = ${id} is deleted`
+    })
+  }else{
+    res.status(404).json({
+      msg: `todo with id = ${id} not found`
+    })
+  }
+
+})
+
+
+
+
+
+
+
+app.listen(3000);
+
