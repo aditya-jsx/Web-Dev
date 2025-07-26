@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+    <script>
+
+
+        async function sendRequest(){
+            // alert("hi"); 
+            const response = await axios.post("http://localhost:3000/sum", {
+                a: document.getElementById("a").value,
+                b: document.getElementById("b").value
+            })
+            // console.log(response);  // this will give us the whole object that comes from the axios
+            // but we only want data so we do
+            console.log(response.data);
+        }
+
+
+    </script>
+</head>
+<body>
+    
+    <input id="a" type="text" placeholder="first value">
+    <input id="b" type="text" placeholder="second value">
+
+    <button  onclick="sendRequest()">Send Request</button>
+
+
+</body>
+</html>
+
+
+<!-- best way to host this like a server is to move this file ona a public server and then do npx server -->
+
+<!-- ! now we'll not be able to send the request like this, and it'll show an error in the networks tab called cors error, -->
+<!-- ! but we're able to send requests from the postman because postman is not a browser -->
+
+<!--! if we send a background request from a different domain it'll get blocked -->
+
+<!--! now how to do it, check index.js -->
