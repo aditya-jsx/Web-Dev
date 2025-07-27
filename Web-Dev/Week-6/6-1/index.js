@@ -61,30 +61,6 @@ app.get("/users", (req, res) => {
 
 
 
-
-// app.post("/signIn", (req, res) => {
-//     const userName = req.body.userName;
-//     const password = req.body.password;
-
-
-//     for(let i = 0; i < users.length; i++){
-//         if(users[i].userName = userName){
-//             if(users[i].password = password){
-//                 res.json({
-//                     msg: `Welcome ${userName}, your token is ${users[i].token}`,
-//                 })
-//             }
-//         }else{
-//             res.status(411).json({
-//                 msg: "invalid username or password",
-//             })
-//         }
-//     }
-// })
-
-
-
-
 app.post("/signIn", (req, res) => {
     const userName = req.body.userName;
     const password = req.body.password;
@@ -112,7 +88,7 @@ app.post("/signIn", (req, res) => {
             })
         }
     }
-    
+
 })
 
 
