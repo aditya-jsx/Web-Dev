@@ -34,11 +34,7 @@
 const express = require("express");
 const app = express();
 
-const users = [{
-    userName: "aditya",
-    password: "123123",
-    token: "something"
-}]
+const users = [];
 
 app.use(express.json());
 
@@ -80,12 +76,16 @@ app.post("/signIn", (req, res) => {
     //     }
     // }
 
+    const token = generateToken();
 
     for(let i = 0; i < users.length; i++){
         if(users[i].userName === userName && users[i].password === password){
             res.json({
-                msg: `Welcome ${userName}, your token is ${users[i].token}`
-            })
+                msg: `Welcome ${userName}`
+            });
+            users[i].push({
+                token: token,
+            });
         }
     }
 
@@ -98,12 +98,16 @@ app.post("/signIn", (req, res) => {
 app.post("/signUp", (req, res) => {
     const userName = req.body.userName;
     const password = req.body.password;
-    const token = generateToken();
+    // const token = generateToken();
+
+
+    //! one more thing, here we can write the conditions for the password.
+    //! this can also be done by using input validations by zod
 
     users.push({
         userName: userName,
         password: password,
-        token: token,
+        // token: token,
     });
 
     res.json({
