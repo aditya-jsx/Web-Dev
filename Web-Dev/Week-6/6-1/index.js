@@ -31,6 +31,106 @@
 //! 4. In every subsequent request, the user sends the token to identify itself to the backend.
 
 
+// const express = require("express");
+// const app = express();
+
+// const users = [];
+
+// app.use(express.json());
+
+
+
+// //! function to generate a token
+// function generateToken(length = 32) {
+//   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   let token = '';
+//   for (let i = 0; i < length; i++) {
+//     token += chars.charAt(Math.floor(Math.random() * chars.length));
+//   }
+//   return token;
+// }
+
+
+// app.get("/users", (req, res) => {
+//     res.json(users);
+// })
+
+
+
+// app.post("/signIn", (req, res) => {
+//     const userName = req.body.userName;
+//     const password = req.body.password;
+
+
+//     // for(let i = 0; i < users.length; i++){
+//     //     if(users[i].userName = userName){
+//     //         if(users[i].password = password){
+//     //             res.json({
+//     //                 msg: `Welcome ${userName}, your token is ${users[i].token}`,
+//     //             })
+//     //         }
+//     //     }else{
+//     //         res.status(411).json({
+//     //             msg: "invalid username or password",
+//     //         })
+//     //     }
+//     // }
+
+
+//     for(let i = 0; i < users.length; i++){
+//         if(users[i].userName === userName && users[i].password === password){
+//             res.json({
+//                 msg: `Welcome ${userName}, your token is ${users[i].token}`
+//             })
+//         }
+//     }
+
+// })
+
+
+
+
+
+// app.post("/signUp", (req, res) => {
+//     const userName = req.body.userName;
+//     const password = req.body.password;
+//     const token = generateToken();
+
+
+//     //! one more thing, here we can write the conditions for the password.
+//     //! this can also be done by using input validations by zod
+
+//     users.push({
+//         userName: userName,
+//         password: password,
+//         token: token,
+//     });
+
+//     res.json({
+//         msg: "user added",
+//     })
+
+
+// })
+
+
+// app.listen(3000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const express = require("express");
 const app = express();
 
@@ -57,57 +157,14 @@ app.get("/users", (req, res) => {
 
 
 
-app.post("/signIn", (req, res) => {
-    const userName = req.body.userName;
-    const password = req.body.password;
-
-
-    // for(let i = 0; i < users.length; i++){
-    //     if(users[i].userName = userName){
-    //         if(users[i].password = password){
-    //             res.json({
-    //                 msg: `Welcome ${userName}, your token is ${users[i].token}`,
-    //             })
-    //         }
-    //     }else{
-    //         res.status(411).json({
-    //             msg: "invalid username or password",
-    //         })
-    //     }
-    // }
-
-    const token = generateToken();
-
-    for(let i = 0; i < users.length; i++){
-        if(users[i].userName === userName && users[i].password === password){
-            res.json({
-                msg: `Welcome ${userName}`
-            });
-            users[i].push({
-                token: token,
-            });
-        }
-    }
-
-})
-
-
-
-
-
 app.post("/signUp", (req, res) => {
     const userName = req.body.userName;
     const password = req.body.password;
-    // const token = generateToken();
 
-
-    //! one more thing, here we can write the conditions for the password.
-    //! this can also be done by using input validations by zod
 
     users.push({
         userName: userName,
         password: password,
-        // token: token,
     });
 
     res.json({
@@ -116,6 +173,42 @@ app.post("/signUp", (req, res) => {
 
 
 })
+
+
+app.post("/signIn", (req, res) => {
+    const userName = req.body.userName;
+    const password = req.body.password;
+
+    // for(let i = 0; i < users.length; i++){
+    //     if(users[i].userName === userName && users[i].password === password){
+    //         res.json({
+    //             msg: `Welcome ${userName}, your token is ${users[i].token}`
+    //         })
+    //     }
+    // }
+
+    const user = users.find(function(u){
+        if(u.userName == userName && u.password == password){
+            return true;
+        }else{
+            return false;
+        }
+    })
+
+    if(user){
+        const token = generateToken();
+        user.token = token;
+        res.json({
+            msg: token
+        })
+    }
+
+
+})
+
+
+
+
 
 
 app.listen(3000)
