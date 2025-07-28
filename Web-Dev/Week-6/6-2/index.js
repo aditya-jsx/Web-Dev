@@ -31,6 +31,126 @@
 //! coding the whole auth again using JWTs
 
 
+// const express = require("express");
+// const app = express();
+
+// app.use(express.json())
+
+// const jwt = require("jsonwebtoken");
+// const JWT_SECRET = "randomJWT";
+
+// const users = [];
+
+// app.post("/signUp", (req, res)=>{
+
+//     const username = req.body.username;
+//     const password = req.body.password;
+
+//     users.push({
+//         username: username,
+//         password: password
+//     })
+
+//     res.json({
+//         msg: "user added",
+//     })
+
+//     //! the problem here is we are not checking that whether a user with this username is present or not
+//     //! and we are pushing this data into out in memory array, we should use a DB
+
+// })
+
+
+
+// app.post("/signIn", (req, res)=>{
+
+//     const username = req.body.username;
+//     const password = req.body.password;
+
+//     const user = users.find(function(u){
+//         if(u.username == username && u.password == password){
+//             return true;
+//         }else{
+//             return false;
+//         }
+//     });
+
+//     if(user){
+//         const token = jwt.sign({        // creating a token from the username
+//             username: username,
+//         }, JWT_SECRET);
+//         user.token = token;
+//         res.json({
+//             msg: token,
+//         });
+//     }else{
+//         res.status(411).json({
+//             msg: "Invalid id or pass"
+//         })
+//     }
+
+// })
+
+// //! here the user will send a token to the backend, to get his info(whatever he wants)
+
+// app.post("/me", (req, res)=>{
+
+//     const token = req.headers.token;
+//     const decodedInfo = jwt.verify(token, JWT_SECRET);      // verifying the token using secret, if we decode instead of verify then other users with the same username cam also get their tokens verified and they can login as you.
+//     const username = decodedInfo.username;
+
+//     const user = users.find(function(u){        // checking if the token provided in the signIn is same to the token given by the user in request
+//         if(u.token == token){
+//             return true;
+//         }else{
+//             return false;
+//         }
+//     })
+
+//     if(user){
+//         res.json({
+//             username: user.username,
+//             password: user.password,
+//         })
+//     }else{
+//         res.status(411).json({
+//             msg: "invalid token"
+//         })
+//     }
+
+
+// })
+
+
+
+
+
+// app.listen(3000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// todo - Can you try creating a middleware called auth that verifies if a user is logged in and ends the request early if the user isn’t logged in?
+
+
 const express = require("express");
 const app = express();
 
@@ -55,10 +175,41 @@ app.post("/signUp", (req, res)=>{
         msg: "user added",
     })
 
-    //! the problem here is we are not checking that whether a user with this username is present or not
-    //! and we are pushing this data into out in memory array, we should use a DB
-
 })
+
+
+
+
+
+
+//! this taken the token from the header and verifies it using secret, then if we get err we send a unauthorized msg, and if we get data then send the data and command to next endpoint which is (/me).    decoded contains the info we get from the token.
+
+//! we wrote this middleware because so many endpoints in any app needs to check whether the token is verified or not,
+//! so this middleware does that job for those endpoints and we don't have to write this code again and again in those endpoints.
+function auth(req, res, next){
+    const token = req.headers.token;
+
+    if(token){
+        jwt.verify(token, JWT_SECRET, (err, decoded)=>{
+            if(err){
+                res.status(401).json({
+                    msg: "Unauthorized",
+                })
+            }else{
+                req.user = decoded;
+                next();
+            }
+        })
+    }else{
+        res.status(401).json({
+            msg: "Unauthorized",
+        })
+    }
+
+}
+//! one more thing to learn - how the data is passed using req object,
+//! because all the endpoints use the same req object so whenever we update it like we did in line 199, it gets updated for all endpoints.
+
 
 
 
@@ -76,7 +227,7 @@ app.post("/signIn", (req, res)=>{
     });
 
     if(user){
-        const token = jwt.sign({        // creating a token from the username
+        const token = jwt.sign({
             username: username,
         }, JWT_SECRET);
         user.token = token;
@@ -89,34 +240,23 @@ app.post("/signIn", (req, res)=>{
         })
     }
 
+    //! how we send headers
+    // res.header("random", "Dev");
+    //! we'll able to see this in response headers
+
 })
 
-//! here the user will send a token to the backend, to get his info(whatever he wants)
 
-app.post("/me", (req, res)=>{
 
-    const token = req.headers.token;
-    const decodedInfo = jwt.verify(token, JWT_SECRET);      // verifying the token using secret
-    const username = decodedInfo.username;
+//! working
+app.get("/me", auth, (req, res)=>{
+    
+    //! here we are extracting username from the (decoded) we got after verifying the token
+    const user = req.user;
 
-    const user = users.find(function(u){        // checking if the token provided in the signIn is same to the token given by the user in request
-        if(u.token == token){
-            return true;
-        }else{
-            return false;
-        }
+    res.json({
+        username: user.username
     })
-
-    if(user){
-        res.json({
-            username: user.username,
-            password: user.password,
-        })
-    }else{
-        res.status(411).json({
-            msg: "invalid token"
-        })
-    }
 
 
 })
