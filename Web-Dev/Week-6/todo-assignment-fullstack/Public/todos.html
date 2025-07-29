@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full stack todo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        let id = 0;
+        function addTodo(){
+            const todoDiv = document.createElement("div");
+            todoDiv.id = id + 1;
+            todoDiv.innerHTML = `<h1 class="p-2 bg-white rounded-md">${document.getElementById("todo-input").value}</h1>
+                                 <button onClick={deleteTodo(this.parentNode)} class="p-2 bg-red-100 rounded-md">Delete</button>
+                                 <button onClick={editTodo()} class="p-2 bg-red-100 rounded-md">Edit</button>`;
+
+            const todos = document.getElementById("todos");
+            todos.appendChild(todoDiv);
+        }
+
+        function deleteTodo(divElement){
+            divElement.remove();
+        }
+        
+        function editTodo(){
+            console.log("edit")
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <div class="h-full w-full flex items-center justify-center mt-36 flex-col mb-[10rem]">
+        <div class="flex flex-col items-center p-8 gap-4 h-full w-[24rem] bg-blue-200 border-4 border-gray-300 rounded-3xl">
+            <div class="inputs">
+                <h1 class="text-center text-3xl text-red-500 font-bold">Todo App</h1>
+            </div>
+            <div>
+                <input type="text" id="todo-input" placeholder="Write your todo" class="p-2 bg-blue-50 rounded-md text-center">
+                <!-- <a href=""> -->
+                    <button id="todo-add" onclick={addTodo()} class="bg-red-200 p-2 rounded-md">Add Todo</button>
+                <!-- </a> -->
+            </div>
+
+            <!-- todos -->
+             <div id="todos" class="h-full w-full flex flex-col gap-2">
+
+             </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- ./todos.html -->

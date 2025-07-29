@@ -169,7 +169,7 @@ app.get("/", (req, res)=>{
 )
 
 
-//! we can also use 
+//! we can also use     
 // app.use(express.static("./public"))
 
 
