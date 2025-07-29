@@ -33,32 +33,6 @@
             window.location.href = "todos.html";
         }
 
-        // now we want the user to see it's information
-        // async function getInfo(){
-        //     const response = await axios.get("http://localhost:3000/me", {
-        //         headers: {
-        //             token: localStorage.getItem("token")
-        //         }
-        //     })
-        //     document.getElementById("userInfo").innerHTML = "Username: " + response.data.username + " Password: " + response.data.password;
-        // }
-        
-        // const token = localStorage.getItem("token");
-        // console.log(token);
-
-        // window.addEventListener("DOMContentLoaded", async function(){
-        //     const token = localStorage.getItem("token");
-        //     if(token){
-        //         const button = document.createElement("button");
-        //         button.textContent = "Log Out";
-        //         button.onclick = logOut;
-        //         document.getElementById("logout-button").appendChild(button);
-        //         await getInfo();
-        //     }else{
-        //         document.getElementById("logout-button").innerHTML = "";
-        //     }
-
-        // })
 
     </script>
 </head>
@@ -76,15 +50,7 @@
             <input id="signin-password" type="text" placeholder="pass">
             <button onclick={signIn()}>SignIn</button>
         </div>
-
-        <!-- <div>
-            User Information:
-            <div id="userInfo"></div>
-        </div> -->
-
-        <!-- <div id="logout-button"> -->
-            <!-- <button onclick={logOut()}>Log Out</button> -->
-        <!-- </div> -->
+        
 </body>
 </html>
 
