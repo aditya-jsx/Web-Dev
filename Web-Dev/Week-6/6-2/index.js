@@ -161,6 +161,14 @@ const JWT_SECRET = "randomJWT";
 
 const users = [];
 
+//! on localhost:3000, we are returing the contents of our html file
+app.get("/", (req, res)=>{
+    res.sendFile(__dirname + "/public/index.html");
+    // we have to do __dirname as well, because we have to give the complete directory and __dirname holds our current directory
+}
+)
+
+
 app.post("/signUp", (req, res)=>{
 
     const username = req.body.username;
@@ -208,7 +216,7 @@ function auth(req, res, next){
 
 }
 //! one more thing to learn - how the data is passed using req object,
-//! because all the endpoints use the same req object so whenever we update it like we did in line 199, it gets updated for all endpoints.
+//! because all the endpoints use the same req object so whenever we update it like we did in line 207, it gets updated for all endpoints.
 
 
 
@@ -229,10 +237,11 @@ app.post("/signIn", (req, res)=>{
     if(user){
         const token = jwt.sign({
             username: username,
+            password: password,     // should never send this
         }, JWT_SECRET);
         user.token = token;
         res.json({
-            msg: token,
+            token: token,
         });
     }else{
         res.status(411).json({
@@ -255,7 +264,8 @@ app.get("/me", auth, (req, res)=>{
     const user = req.user;
 
     res.json({
-        username: user.username
+        username: user.username,
+        password: user.password
     })
 
 

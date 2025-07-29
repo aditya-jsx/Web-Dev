@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+    <script>
+        async function signUp(){
+            const username = document.getElementById("signup-username").value;
+            const password = document.getElementById("signup-password").value;
+
+            // we have to send a post request
+            const response = await axios.post("http://localhost:3000/signUp", {
+                username: username,
+                password: password
+            });
+            alert("Signed Up successfully");
+        }
+
+        async function signIn(){
+            const username = document.getElementById("signin-username").value;
+            const password = document.getElementById("signin-password").value;  
+            
+            const response = await axios.post("http://localhost:3000/signIn", {
+                username: username,
+                password: password
+            });
+
+            // storing the token that backend returns us in the local storage of the website
+            localStorage.setItem("token", response.data.token);
+            alert("Signed In successfully");
+        }
+
+        // now we want the user to see it's information
+        async function getInfo(){
+            const response = await axios.get("http://localhost:3000/me", {
+                headers: {
+                    token: localStorage.getItem("token")
+                }
+            })
+            document.getElementById("userInfo").innerHTML = "Username: " + response.data.username + " Password: " + response.data.password;
+        }
+        getInfo();
+    </script>
+</head>
+<body>
+        <div>
+            SignUp
+            <input id="signup-username" type="text" placeholder="Id">
+            <input id="signup-password" type="text" placeholder="pass">
+            <button onclick={signUp()}>SignUp</button>
+        </div>
+
+        <div>
+            SignIn
+            <input id="signin-username" type="text" placeholder="Id">
+            <input id="signin-password" type="text" placeholder="pass">
+            <button onclick={signIn()}>SignIn</button>
+        </div>
+        <div>
+            User Information:
+            <div id="userInfo"></div>
+        </div>
+        <div>
+            <button onclick={logOut()}>Log Out</button>
+        </div>
+</body>
+</html>
+
+
+<!--! to show our html file to the people we can add another endpoint (go to index.js) -->
