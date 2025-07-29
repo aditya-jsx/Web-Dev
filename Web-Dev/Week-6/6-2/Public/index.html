@@ -30,6 +30,8 @@
             // storing the token that backend returns us in the local storage of the website
             localStorage.setItem("token", response.data.token);
             alert("Signed In successfully");
+            // reloading page after signin to get info
+            location.reload();
         }
 
         // now we want the user to see it's information
@@ -41,7 +43,29 @@
             })
             document.getElementById("userInfo").innerHTML = "Username: " + response.data.username + " Password: " + response.data.password;
         }
-        getInfo();
+        
+        async function logOut(){
+            localStorage.removeItem("token");
+            location.reload();
+        }
+        
+        // const token = localStorage.getItem("token");
+        // console.log(token);
+
+        window.addEventListener("DOMContentLoaded", async function(){
+            const token = localStorage.getItem("token");
+            if(token){
+                const button = document.createElement("button");
+                button.textContent = "Log Out";
+                button.onclick = logOut;
+                document.getElementById("logout-button").appendChild(button);
+                await getInfo();
+            }else{
+                document.getElementById("logout-button").innerHTML = "";
+            }
+
+        })
+
     </script>
 </head>
 <body>
@@ -62,8 +86,9 @@
             User Information:
             <div id="userInfo"></div>
         </div>
-        <div>
-            <button onclick={logOut()}>Log Out</button>
+
+        <div id="logout-button">
+            <!-- <button onclick={logOut()}>Log Out</button> -->
         </div>
 </body>
 </html>

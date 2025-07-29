@@ -169,6 +169,10 @@ app.get("/", (req, res)=>{
 )
 
 
+//! we can also use 
+// app.use(express.static("./public"))
+
+
 app.post("/signUp", (req, res)=>{
 
     const username = req.body.username;
@@ -216,7 +220,7 @@ function auth(req, res, next){
 
 }
 //! one more thing to learn - how the data is passed using req object,
-//! because all the endpoints use the same req object so whenever we update it like we did in line 207, it gets updated for all endpoints.
+//! because all the endpoints use the same req object so whenever we update it like we did in line 211, it gets updated for all endpoints.
 
 
 
