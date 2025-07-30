@@ -19,3 +19,9 @@ try{
 }
 
 //! the code written inside the catch will run as the try code will throw an error as can't get the length of undefined.
+
+
+
+
+
+//! In 6.2 video we log in in mongoDB 
