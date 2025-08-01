@@ -173,6 +173,8 @@ app.listen(3000);
 
 
 //! done with mongo(almost) , learn zod
+//! solved some bugs of the backend
+
 
 //! 2) now for database we'll create a new file, db.js(go to the file)
 
