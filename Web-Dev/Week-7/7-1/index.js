@@ -38,11 +38,12 @@
 
 
 const express = require("express");
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 const app = express();
 
 //! 4) this is how we import some shit in js
 const { UserModel, TodoModel } = require("./db");
-const jwt = require("jsonwebtoken");
 const JWT_SECRET = "anything123";
 
 app.use(express.json());
@@ -67,14 +68,14 @@ app.post("/signup", async (req, res)=>{
 
     //! 6) now inserting these values in the db
     //! 7) now the request here goes to the db located on a server so this should be a await call, as we don't know much time it'll take to update the db, and we can't say to the user that you are logged in without getting the proper info(we'll use async await)
-    await UserModel.insert({
+    await UserModel.create({
         password: password,
         name: name,
         email: email
     })
 
 
-    re.json({
+    res.json({
         message: "You are logged in"
     })
 
@@ -84,11 +85,11 @@ app.post("/signup", async (req, res)=>{
 //! 8) have to check whether the user is present on the database or not
 app.post("/login", async (req, res)=>{
 
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    //!9) now we have to find the user in the db(now one thing to make sure that this create returns a promise, as it'll go to the db and return the user, it's an asynchronous call)
-    const user = await UserModel.create({
+    //!9) now we have to find the user in the db(now one thing to make sure that this (findOne) returns a promise, as it'll go to the db and return the user, it's an asynchronous call)
+    const user = await UserModel.findOne({
         email: email,
         password: password
     })
@@ -114,10 +115,10 @@ app.post("/login", async (req, res)=>{
 async function Auth(req, res, next){
     const token = req.headers.token;
 
-    const response = jwt.verify("token", JWT_SECRET);
+    const response = jwt.verify(token, JWT_SECRET);         // have to pass token as a varible in which we are storing the token(116)
 
     if(response){
-        req.userId = token.id;
+        req.userId = token.userId;
         next();
     }else{
         res.status(403).json({
@@ -140,18 +141,19 @@ async function Auth(req, res, next){
 
 
 //! 1) these two last requests are authenticated, only if a user is logged in then only, he'll be able to post a todo or get todos.
-app.post("/todo", Auth, (req, res)=>{
+app.post("/todo", Auth, async (req, res)=>{
     const userId = req.userId;
     const description = req.body.description;
     const done = req.body.done;
 
-    TodoModel.create({
+    await TodoModel.create({
         description: description,
-        done: done
+        done: done,
+        userId: userId
     })
 
     res.json({
-        userId: userId
+        message: "Todo Created"
     })
 
 })
@@ -160,20 +162,19 @@ app.post("/todo", Auth, (req, res)=>{
 app.get("/todos", Auth, async (req, res)=>{
     const userId = req.userId;
 
-    const user = await TodoModel.find({
-        userId: userId
+    const todos = await TodoModel.find({
+        userId
     })
 
     res.json({
-        userId: userId
+        todos
     })
 })
 
 app.listen(3000);
 
 
-//! done with mongo(almost) , learn zod
-//! solved some bugs of the backend
+//! finally it's working
 
 
 //! 2) now for database we'll create a new file, db.js(go to the file)

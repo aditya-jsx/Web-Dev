@@ -2,13 +2,13 @@
 
 const mongoose = require("mongoose");
 
-//! 2) now we have to create a schema, (how our data looks like)
+//! 2) now we have to create a schema, (how our data looks like)(wireframe of our data)
 //! 3) now why we need to define a schema even if mongodb is schema less, because we are using a schema library.
 const Schema = mongoose.Schema;     //! 4) this exports a class called schema that we can use to define the schema of our application
 const ObjectId = mongoose.ObjectId;     //! 7)
 
 
-//! 5) making schema for both User and Todos
+//! 5) making schema for both User and Todos(same like we created in the compass)
 const User = new Schema({
     password: String,
     name: String,
@@ -18,7 +18,7 @@ const User = new Schema({
 
 
 const Todo = new Schema({
-    title: String,
+    description: String,
     done: Boolean,
     userId: ObjectId,       //! 6.2) we have to import ObjectId to use it
 })
