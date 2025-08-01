@@ -93,11 +93,11 @@ app.post("/login", async (req, res)=>{
         password: password
     })
 
-    console.log(user);
+    // console.log(user);
 
     if(user){
         const token = jwt.sign({
-            id: user._id        //! 10) because users are defined by these ids, each user has a diff id(we are creating a token using user's id)
+            id: user._id.toString()        //! 10) because users are defined by these ids, each user has a diff id(we are creating a token using user's id) -> also converting object in to string
         }, JWT_SECRET)
         res.json({
             token: token
@@ -111,15 +111,62 @@ app.post("/login", async (req, res)=>{
 })
 
 
+async function Auth(req, res, next){
+    const token = req.headers.token;
+
+    const response = jwt.verify("token", JWT_SECRET);
+
+    if(response){
+        req.userId = token.id;
+        next();
+    }else{
+        res.status(403).json({
+            message: "Incorrect Data"
+        })
+    }
+
+
+    // const user = await UserModel.findOne({name: "Aditya"});
+
+    // if(user){
+    //     jwt.verify("token", JWT_SECRET);
+    //     next();
+    // }else{
+    //     res.status(404).json({
+    //         message: "user not found"
+    //     })
+    // }
+}
+
 
 //! 1) these two last requests are authenticated, only if a user is logged in then only, he'll be able to post a todo or get todos.
-app.post("/todo", (req, res)=>{
+app.post("/todo", Auth, (req, res)=>{
+    const userId = req.userId;
+    const description = req.body.description;
+    const done = req.body.done;
+
+    TodoModel.create({
+        description: description,
+        done: done
+    })
+
+    res.json({
+        userId: userId
+    })
 
 })
 
 
-app.get("/todos", (req, res)=>{
+app.get("/todos", Auth, async (req, res)=>{
+    const userId = req.userId;
 
+    const user = await TodoModel.find({
+        userId: userId
+    })
+    
+    res.json({
+        userId: userId
+    })
 })
 
 
