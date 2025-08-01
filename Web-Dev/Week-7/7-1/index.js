@@ -163,17 +163,16 @@ app.get("/todos", Auth, async (req, res)=>{
     const user = await TodoModel.find({
         userId: userId
     })
-    
+
     res.json({
         userId: userId
     })
 })
 
-
 app.listen(3000);
 
 
-
+//! done with mongo(almost) , learn zod
 
 //! 2) now for database we'll create a new file, db.js(go to the file)
 
