@@ -24,26 +24,100 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const app = express();
-
 const { UserModel, TodoModel } = require("./db");
 const JWT_SECRET = "anything123";
-
-app.use(express.json());
-
-
+const { z } = require("zod");
 
 mongoose.connect("mongodb+srv://adityashrivastav567856:6NpjUZiLAt5AXzJt@cluster0.rimk0q5.mongodb.net/todo-app-database");
 
 
+const app = express();
+app.use(express.json());
 
 
 
 app.post("/signup", async (req, res)=>{
 
+
+
+
+    //! input validation
+
+    //! 2.3) we want our req.body to look like this
+    //! {
+    //!     email: string,
+    //!     password: string,
+    //!     name: string
+    //! }
+
+    //! 2.4) make a schema and then add function that we want, this is how we want to receive our data from the user
+    const requireBody = z.object({
+        email: z.string().min(5).max(20).email(),
+        password: z.string().min(3).max(8),
+        name: z.string().min(3).max(100)
+    })
+
+    //! 2.5) now next step is to parse this data, there are two functions for that
+    // const parsedData = requireBody.parse(req.body);      //! 1st approach
+    // const parsedDataSuccess = requireBody.safeParse(req.body);      //! 2nd approach
+
+
+    //! 2.6) we'll continue with 2nd approach first,
+    //! this second approach returns us two things - data, success
+    //! we can also destructure it lile this
+    // const {success, data} = requireBody.safeParse(req.body);
+
+    const parsedDataSuccess = requireBody.safeParse(req.body);      //! cuurently using it like this
+
+
+    //! 2.7) to run the code, if parsing is unsuccessfull (now if we pass some extra fields then it'll ignore the extra fields and will parse the data)
+    if(!parsedDataSuccess.success){
+        res.json({
+            msg: "incorrect format",
+            error: parsedDataSuccess.error
+        })
+    }
+    //! 2.8) and to tell the user what is incorrect this object that we get back has a field called error
+
+    //! 2.9) the 2nd approach is (parse), the problem with this approach is that either it'll give data if it successfully parse or it'll throw an error so we have to put it in a try catch block
+    //! 2.91) so we prefer to use safeParse
+
+    //! 2.92) safeParse returns us an object like:- 
+    //! {
+    //!     success: true | false
+    //!     data: {}
+    //!     errors: []
+    //! }
+
+    //! check that the password has 1 uppercase, 1 lowercase, 1 special character, (done below)
+
+    // const requiredBody = z.object({
+    //   email: z.string().email(),
+    //   password: z
+    //     .string()
+    //     .min(8, "Password must be at least 8 characters")
+    //     .regex(/[A-Z]/, "Must contain an uppercase letter")
+    //     .regex(/[a-z]/, "Must contain a lowercase letter")
+    //     .regex(/[!@#$%^&*(),.?":{}|<>]/, "Must contain a special character"),
+    //   name: z.string().min(3),
+    // });
+
+
+
+
+
+
+
+
+
+    // normal auth code 
     const password = req.body.password;
     const name = req.body.name;
     const email = req.body.email;
+
+
+
+    // hashing
 
     //! 1.22) hashing the password before storing it in the DB, pass the password received from the user and the number of cycles(more cycles more difficult to process for hackers), either we use the callback function as third argument or we promisify it
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -189,3 +263,12 @@ app.listen(3000);
 //! 1.26) now we have to use error handling in our code(try catch), what if we don't accept users with the same email or only allow unique emails(go to db.js)
 
 //! 1.28) now if we run the server and login with same email our server will crash, for that we use error handling
+
+
+
+
+
+
+
+//! 2.1) Input Validation: - the user can push anything even if we specify that we need a string(this can make our backend crash), for that we use input validation.
+//! 2.2) we can do that by ourselves as well but for that we have to manually write a lot of code, so we use a library called zod for it.

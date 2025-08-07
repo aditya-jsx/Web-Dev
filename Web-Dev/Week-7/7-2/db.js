@@ -8,7 +8,7 @@ const User = new Schema({
     password: String,
     name: String,
     email: {type: String, unique: true},
-    //! 1.27) accpeting unique emails not same
+    //! 1.27) accpeting unique emails not same ones
 })
 
 const Todo = new Schema({
