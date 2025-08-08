@@ -121,7 +121,9 @@
 //! Create a function that takes another function as input, and runs it after 1 second.
 
 
-//? this here passed in parameters is what we do when we to give a function as an input to another function(if we are passing any arguments then we have to pass them here  as well)
+//? this here passed in parameters is what we do when we to give a function as an input to another function(if we are passing any arguments in that function then we have to pass them here as well)
+//? instead of void we'll write the type that the another function is returning,in this case it's returning nothing so we wrote void.
+
 // function one(fn: () => void){
 //     setTimeout(fn, 1000);
 // }
@@ -132,3 +134,168 @@
 
 
 //! done
+
+
+
+
+
+
+
+
+
+
+
+//! tsconfig.js
+//! we can convert our ts code to older js code for the browsers that don't support the modern ecmascript
+//! we have a target file in tsconfig.js, after changing it to the required js version we can convert out ts code to that version's js code
+
+
+
+
+
+
+
+
+
+//! now if we have different ts files then we compile these files, for every ts file we'll have a js file, and we don't want to put the js files in the github, because no dev wants to pull the js files as the compiler will make them, so we have to store the ts files and js files separately for that we change two things in out tsconfig.json, 
+
+// - rootDir - for out ts files
+// - dist - for out js files
+
+//! we make two files, one is (src) to store our ts files and the other one is (dist) to store our js files.
+//! this will store our ts files in src and our js output files in dist, sonow we can gitignore the dist folder
+
+
+//! apart from the index.js we get some more outputs we can stop them by commenting these in the tsconfig.json
+
+// Other Outputs
+// "sourceMap": true,
+// "declaration": true,
+// "declarationMap": true,
+
+
+
+
+
+
+
+
+
+//! to remove comments in out js file we can add removeComments in out tsconfig.json.
+
+
+
+
+
+
+
+
+
+//! we have noImplicitAny, if we set it to false then the compiler will not throw any error if we don't give a type to a variable and sets to type any by default, but it'll still give a warning
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! Interfaces
+
+
+//! how can we give type to an object
+
+// function greet(user: {
+//     name: string,
+//     age: number
+// }){
+//     console.log("hello", user.name, ". Your age is ", user.age);
+// }
+
+// greet({
+//     name: "Aditya",
+//     age: 22
+// });
+
+
+//! we can do this as well, it'll automatically infer the type of the user object
+// let user = {
+//     name: "Aditya",
+//     age: 22
+// }
+//! and then we cna pass this user in to greet function as an argument
+
+
+
+//! or we can define a new object as well, 
+
+// let anything: {
+//     name: string,
+// } = {
+//     name: "Dev"
+// }
+//! here even if we don't give the type of the keys here, it'll automatically infer that this is an object
+
+
+
+
+//! a more complex object can written as
+
+// const users: {
+//     name:string,
+//     age: number,
+//     address: {
+//         streetName: string,
+//         country: string
+//     }
+// } = {
+//     name: 'Aditya',
+//     age: 22,
+//     address: {
+//         streetName: "Rohini",
+//         country: "India"
+//     }
+// };
+
+// console.log(users);
+
+
+
+
+
+
+//! we can define the types alag se and then we can use them in out code
+
+interface UserType {
+    firstName: string,
+    lastName: string,
+    age: number,
+}
+
+function greet(user: UserType){
+    console.log("Hello", user.firstName);
+}
+
+greet({
+    firstName: "Aditya",
+    lastName: "Shrivastav",
+    age: 22
+})
