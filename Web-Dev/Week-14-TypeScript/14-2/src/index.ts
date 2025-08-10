@@ -293,6 +293,7 @@
 //! IMPORTANT -
 //! What is the difference between iterfaces and types
 //! so the difference between the interfaces and types are, we can implement interfaces as classes, but not in types.
+//! types let us do unions and intersections, interfaces doesn't let us do unions and intersections
 
 
 
@@ -447,3 +448,229 @@
 //     startDate: "30-03-2003",
 //     department: "Sales"
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! Create two types called User and Admin
+//! Create a function that takes either a User or Admin as an input, and returns a string saying "Welcome, [name]"
+
+// interface Admin {
+//     name: string; 
+//     permissions: string;
+// }
+
+// interface User {
+//     name: string;
+//     age: number;
+// }
+
+
+//! 1) either we can do this
+// function greet(user: User | Admin){
+
+// }
+
+
+
+//! 2) or we can do this
+
+// type UserOrAdmin = User | Admin;
+
+// function greet(user: UserOrAdmin){
+//     console.log("Welcome", user.name);
+//     //! now here we can't call age or permission, as we don't know which interface it'll be using, so it can only take the property which is common
+// }
+
+// greet({
+//     name:"Aditya",
+//     age: 22,
+// })
+
+
+//! unions can be done like this also
+
+// interface User {
+//     age: number | string;
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! Arrays in TypeScript
+
+//! how can we give arrays as a type
+
+//! suppose we have to make a function to find a specific number in an array
+
+//! now array is of type number so we'll do this nums: number[]
+// function max(nums: number[]){
+//     let maxValue = 3333;
+
+//     for(let i =0; i<nums.length; i++){
+//         if(nums[i] > maxValue){
+//             maxValue = nums[i]            
+//         }
+//     }
+//     return maxValue;
+// }
+
+// console.log(max([1, 2, 34, 45]));
+
+
+
+
+
+
+
+
+
+
+
+//! another example
+
+// interface Users {
+//     firstName: string;
+//     secondName: string;
+//     age: number;
+// }
+
+
+// function filterUsers(users: Users[]){
+//     let ans: Users[] = [];   
+
+//     for(let i = 0; i<users.length; i++){
+//         const user = users[i];
+//         if(user && user.age > 18){
+//             ans.push(user);
+//         }
+//     }
+
+//     return ans;
+// }
+
+// const filteredUsers = filterUsers([{
+//     firstName: "Aditya",
+//     secondName: "Shrivastav",
+//     age: 22
+// }])
+
+// console.log(filteredUsers);
+
+
+
+
+
+
+
+
+
+
+
+//! we can say that
+// interface one {
+//     name: string;
+// }
+
+// interface Two {
+//     age: number;
+// }
+
+// but if we want to do union or intersection then we have to use type
+//! we can do this
+
+// type Third = one & Two;
+
+//! but not this
+
+// interface Fourth = one & Two
+
+
+
+
+
+
+
+
+
+
+
+
+//! IMPORTANT
+// ! Question - 
+
+//! suppose there are two types
+
+// type Rectangle = {
+//     x: number;
+//     y: number;
+// }
+
+// type Name = {
+//     name: string;
+// }
+
+//! what will come in out mind if we do -> Rectangle & Name
+//! like this
+
+// type Third = Rectangle & Name;
+
+//! we'll say that if we make an object from the third type then it'll have the properties of both Rectangle and Name.
+
+// const shape: Third = {
+//     x: 12,
+//     y: 34,
+//     name: "Quardrilateral"
+// }
+
+//! but isn't this what we call a union?? ---- having both properties, because in intersection we should have either Rectangle or Name.
+
+//! Think of types as a set of values(it isn't only x and y), along with x and y it can have some more properties as typescript uses open types, that means any possible value with property x and y and infinitely many other properties is also part of the Rect.
+
+
+//! same goes for the other type Name, it could also have so many different properties but there will be a set where along with name, the propertes x and y also exists,
+//! and in the Rectangle type, there will be a set in which along with x and y, the property name also exists.
+
+//! so that's why the intersection includes all the properties form both the types.
+
+
+//! DAAAAYYYUUUUMMMMMMMMMMMMMMMM
