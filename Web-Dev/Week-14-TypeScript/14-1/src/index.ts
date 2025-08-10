@@ -1,5 +1,10 @@
 //! TypeScript - it is a compiler based langusge with type safety, it first checks the code then converts it into a js file to run, it has also compile time errors which helps us to resolve errors more quickly.
 
+
+//! Notes: -  https://projects.100xdevs.com/tracks/6SbPPXGkG8QKFOTW9BmL/ts-6
+
+
+
 //! ts - typescript compiler takes typescript code and spits out js code
 //! there are other compilers as well like esbuild, swc
 
@@ -284,18 +289,147 @@
 
 //! we can define the types alag se and then we can use them in out code
 
-interface UserType {
-    firstName: string,
-    lastName: string,
-    age: number,
-}
+// interface UserType {
+//     firstName: string,
+//     lastName: string,
+//     age: number,
+// }
 
-function greet(user: UserType){
-    console.log("Hello", user.firstName);
-}
+// function greet(user: UserType){
+//     console.log("Hello", user.firstName);
+// }
 
-greet({
-    firstName: "Aditya",
-    lastName: "Shrivastav",
-    age: 22
-})
+// greet({
+//     firstName: "Aditya",
+//     lastName: "Shrivastav",
+//     age: 22
+// })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! Types
+
+//! very similar to interfaces but they let us do some other things as well,
+
+// interface User {
+//     name: string,
+//     age: number
+// }
+
+// type UserType = {
+//     name: string,
+//     age: number
+// }
+
+
+//! we can make this object using both types and interfaces
+// let user: UserType = {
+//     name: "Aditya",
+//     age: 22
+// }
+
+
+
+
+
+
+
+
+
+//! type give us something extra
+
+//! it gives us union(we can select two types)
+
+//! this is called (Unions)
+// type StringOrNumber = string | number;
+
+// function print(id: StringOrNumber){
+//     console.log("ID:", id);
+// }
+
+//! we can pass both the things in this as it accepts both
+// print(12);
+// print("22");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! Intersection
+
+//! if we have two types, then we can make them one (this only happens by using types)
+
+// type Employee = {
+//     name: string,
+//     date: Date
+// }
+
+// type Manager = {
+//     name: string,
+//     department: string
+// }
+
+//! here we are doing intersection
+// type TeamLead = Employee & Manager;
+
+//! we have to give all the keys to this otherwise the compiler will show an error, repeated keys will be used once
+// const teamLead: TeamLead = {
+//     name: "Aditya",
+//     date: new Date(),
+//     department: "IT"
+// }
+
+// console.log(teamLead);
+
+
+
+
+
+
+
+
+
+//! now we can't do this in ts
+
+
+// type S = string | number;
+
+// function sum(a: S, b: S){
+//     return a + b
+// }
+
+// now the compiler is showing error as TypeScript doesn't know at compile time whether a and b will both be numbers, both be strings, or a mix of both.
+
+// so if we want to run a similar code we have to do this
+
+
+// function add(a: S, b: S){
+//     if(typeof a === "number" && typeof b === "number"){
+//         return a + b
+//     }
+// }
