@@ -1,4 +1,4 @@
-//! Notes :- https://projects.100xdevs.com/tracks/6SbPPXGkG8QKFOTW9BmL/ts-6
+//! Notes :- https://projects.100xdevs.com/tracks/6SbPPXGkG8QKFOTW9BmL/ts-1
 
 
 // we can also give the return type of the function
@@ -671,6 +671,8 @@
 //! and in the Rectangle type, there will be a set in which along with x and y, the property name also exists.
 
 //! so that's why the intersection includes all the properties form both the types.
+
+//! Reddit Article for this - https://www.reddit.com/r/typescript/comments/1e61bla/demystifying_intersection_and_union_types_in/
 
 
 //! DAAAAYYYUUUUMMMMMMMMMMMMMMMM
