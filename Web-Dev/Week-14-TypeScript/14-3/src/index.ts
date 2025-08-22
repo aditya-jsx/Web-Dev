@@ -87,9 +87,9 @@ import mini = require("zod/mini");
 
 //! Readonly - suppose we have something stored in a const variable, and the typescript still let us update it
 
-const a = [1, 2, 3]
+// const a = [1, 2, 3]
 
-a[0] = 4;
+// a[0] = 4;
 //! ts will not complain about this(ts lets us do this we are not changing (a), we are changing the values of a,  we are not changing the reference of (a), we are changing the internal values of a)
 //! we can't do this with a string
 
@@ -269,3 +269,94 @@ a[0] = 4;
 
 
 //! Type Inference in Zod
+
+// import { z } from 'zod';
+
+// const StringZodSchema = z.string();       // this is a runtime vairable
+// type tringZodType = z.infer<typeof StringZodSchema>;     // this is a compile time variable
+
+//! given a runtime js variable we can infer it's typeScript type using this above syntax.
+
+
+
+
+
+// import { z } from 'zod';
+// import express from "express";
+
+// const app = express();
+
+// Define the schema for profile update
+// const userProfileSchema = z.object({
+//   name: z.string().min(1, { message: "Name cannot be empty" }),
+//   email: z.string().email({ message: "Invalid email format" }),
+//   age: z.number().min(18, { message: "You must be at least 18 years old" }).optional(),
+// });
+
+//! lets supppose i want this type in the user endpoint as well 
+//! so we'll do this to infer it's properties
+// type FinalUserSchema = z.infer<typeof userProfileSchema>;
+//! the changes done in the types of the original type will also be reflected here.
+
+//! we mostly use this zod type inference in the backend and then export it and use it in the frontend
+// export type FinalUserSchema = z.infer<typeof userProfileSchema>;
+
+
+
+
+
+// app.put("/user", (req, res) => {
+//   const { success } = userProfileSchema.safeParse(req.body);
+//   const updateBody = req.body; // how to assign a type to updateBody?
+
+//   if (!success) {
+//     res.status(411).json({});
+//     return
+//   }
+//   // update database here
+//   res.json({
+//     message: "User updated"
+//   })
+// });
+
+// app.listen(3000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//! we can extend the types as well
+
+// type A = {
+//     name: string;
+// };
+
+// type B = {
+//     age: number;
+// };
+
+// interface X extends A, B {};
+
+// let user: X = {
+//     name: "Aditya",
+//     age: 22,
+// }
+
+//! this is how we extend types in typeScript
