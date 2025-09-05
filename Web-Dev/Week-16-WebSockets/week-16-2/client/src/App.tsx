@@ -1,4 +1,3 @@
-// import axios from "axios";
 import "./index.css"
 import { useEffect, useRef, useState } from "react";
 
@@ -12,7 +11,8 @@ function App() {
 
   const [socket, setSocket] = useState();
   const inputRef = useRef();
-
+  const [data, setData] = useState();
+ 
   function sendMessage(){
     
     // @ts-ignore
@@ -20,7 +20,9 @@ function App() {
 
     // @ts-ignore
     socket.send(message);
+    
   }
+
   
   
   //! in this useEffect we'll make the connection to the ws server
@@ -30,7 +32,8 @@ function App() {
     setSocket(ws);
 
     ws.onmessage = (e)=>{
-      alert(e.data);
+      setData(e.data);
+      alert("message received");
     }
   }, [])
 
@@ -47,7 +50,7 @@ function App() {
           <div className="flex gap-4 items-center">
             <h1 className="text-white">Response - </h1>
             <div className="p-4 bg-gray-700 rounded-lg text-white">
-              Conditionally render here
+              {data}
             </div>
           </div>
         </div>
