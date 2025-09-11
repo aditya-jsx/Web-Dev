@@ -1,25 +1,55 @@
+// 1) This is how our prisma looks
+
+
+// 2) we have a client which tells us which provider we are using and where the migrated files will be stored
+
+// Client represents all the functions that convert, this
+
+// User.create({email: "harkirat@gmail.com"})
+
+// Into this
+
+// INSERT INTO users VALUES ...
+
+
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // output   = "../src/generated/prisma"
 }
+
+
+// 3) this database source tells us about the db that we are usign and is connecting to the cloud db by getting it's link from the env file
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+
+// 4) this is a users table @id means that it'll be a number and @default(autoincrement()) means this id will increment for every new user
+// @unique means the title of every todo should be unique
 model User {
   id         Int      @id @default(autoincrement())
   username   String   @unique
   password   String
   age        String
   city       String
+  todos      Todo[]
 }
+// 9) added a property todo which is a array to todos from the Todo table
+// 5) now if I add a new property in the user model like city, then we have to migrate the prisma to generate a new structure which will add the city property in the users table
 
+
+// 6) this is also a table of todos,
 model Todo {
   id            Int      @id @default(autoincrement())
-  title         String   @unique
+  title         String
   description   String
   done          Boolean
-  userId        String
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
 }
+// 10) created the relation of the Todo table with the User table and related the field (userId) of Todo with the (id) of User
+// 11) now we'll run the migrate command which will automatically run the genrate command, go to index.ts
+// 7) removing a property in prisma is easy but adding a new one is a bit tricky as the all the old ones will not have that property, so we can either make that property optional so that it's not a necessary thing, or we can give it a default value of now, so it gets added to every row with the current value which can be changed in the future.
+// 8) go to index.ts
