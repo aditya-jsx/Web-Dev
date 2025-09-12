@@ -1,0 +1,9 @@
+Notes - https://projects.100xdevs.com/tracks/nextjs-2/next-2-1
+
+
+
+
+
+- Here we'll see how we can make backends in Nextjs
+- so first in page.tsx we'll make an async function to fetch data from some api
+- go to page.tsx inside the user folder
