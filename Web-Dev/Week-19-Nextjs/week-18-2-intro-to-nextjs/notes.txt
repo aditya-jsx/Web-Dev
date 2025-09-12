@@ -1,0 +1,24 @@
+-> The routing in nextjs is done by file based routing, we have to make a folder of the route that we want to make and then we have to include a page.tsx inside that route file, this page.tsx will show the html of that route.
+
+-> In next js, there is server side rendering, which means the next server talks to the backend server and prevents waterfalling, it returns everything at the same time
+
+-> It also supports SEO optimization as it returns the whole html so that the google crawler can understand what this website is for, unlike react which used to return an empty html file but next returns an html file with all our contents.
+
+-> The first index.html file it get’s back will have context about the page since it was server side rendered
+
+
+-> If we are using nextjs link tags then it automatically pre fetch pages.
+
+
+-> Now suppose we want to keep our auth pages in the auth folder, but it'll make out route look like this http://localhost:3000/auth/signup
+
+-> If we don't want to do this then we can place the name of our auth folder like this (auth), now nextjs will ignore this file routing and will route the inner folders
+-> Now it'll look like this http://localhost:3000/signup
+
+
+-> The layout file is like a layout for the whole folder, we can add navbars or sidebars by adding them in the layouts of the folders or routes where we need them , and then we can render the remaining components.
+
+
+-> Nextjs does SSR, it first renders the components on the server then they are shown on the frontend, even a client side component in nextjs is rendered first on the server then it gets rendered on the client, but it can lead to hydration errors if we dont write code like a proper client side component.
+
+// For Ex - all requests things should be in useEffect
