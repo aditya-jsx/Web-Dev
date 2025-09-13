@@ -7,6 +7,8 @@ export default function Home(){
         This is Todo App
       </h1>
 
+
+      {/* this is the good way of doing routing */}
       <div className="flex gap-4">
         <Link className="border-white rounded border-2 p-2" href="/signup">Sign up to todo app</Link>
         <Link className="border-white rounded border-2 p-2" href="/signin">Sign in to todo app</Link>
