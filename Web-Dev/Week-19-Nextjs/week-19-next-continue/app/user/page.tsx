@@ -47,24 +47,24 @@ import { useEffect, useState } from "react";
 //! 3) to make this request through the nextjs server
 
 //! 3.1) first thing we have to do is to make this component async, this does not mean that the component is an async component, this means that whatever logic is written here, will run on the server
-export default async function Home() {
+// export default async function Home() {
 
-  const response = await axios.get("https://dummyjson.com/todos");
+//   const response = await axios.get("https://dummyjson.com/todos");
 
-  await new Promise(r => setTimeout(r, 5000));
+//   await new Promise(r => setTimeout(r, 5000));
 
-  const data = response.data;
+//   const data = response.data;
 
-  return (
-    <div className="h-screen w-full text-6xl text-center flex items-center justify-center">
-      {data?.todos[0].todo}
-    </div>
-  );
-}
+//   return (
+//     <div className="h-screen w-full text-6xl text-center flex items-center justify-center">
+//       {data?.todos[0].todo}
+//     </div>
+//   );
+// }
 //! 3.2) now if we go to localhost and check for the requests going from here, then the initial request will contain the data, as the request is going from the nextjs server to the backend, it gets rendered in the nextjs server first then it is shown on  the frontend
 
-//! this means that this logic code runs on the server, then server created the html, then server rendered the html and then it sent it back.
-//! in nextjs, we can talk to database as well like we did here with server, here we can do ( prisma.user.findAll() ) as well or ( mongoose.UserModel.findOne() )
+//! 3.3) this means that this logic code runs on the server, then server created the html, then server rendered the html and then it sent it back.
+//! 3.4) in nextjs, we can talk to database as well like we did here with server, here we can do ( prisma.user.findAll() ) as well or ( mongoose.UserModel.findOne() )
 
 
 
@@ -83,5 +83,52 @@ export default async function Home() {
 
 
 
-//! now if the request takes some time to complete then we want to show a loader, but the google crawler will see that the page contains a loader, and it'll not be able to see the contents of the webpage,
-//! to use a loader, we make a file called loading.tsx, which is rendered when the page.tsx file is taking time to execute the asyc code, until then next renders whatever is present inside the loading.tsx file, the name of the file should be only this(loading.tsx), now the html that is returned will first show the loading content then it'll show the contents of the page.tsx
+//! 4.1) now if the request takes some time to complete then we want to show a loader, but the google crawler will see that the page contains a loader, and it'll not be able to see the contents of the webpage,
+//! 4.2) to use a loader, we make a file called loading.tsx, which is rendered when the page.tsx file is taking time to execute the asyc code, until then next renders whatever is present inside the loading.tsx file, the name of the file should be only this(loading.tsx), now the html that is returned will first show the loading content then it'll show the contents of the page.tsx
+
+
+
+
+
+
+
+
+
+
+//! 5) Moving backend in our repo
+
+//! for writing a backend code we have to add route handlers which takes care of the route,
+//! for that we'll create a api folder, then the version folder inside it, and then the user route inside a user folder
+
+//! now inside this user folder, if we create a page.tsx and write a code for the frontend it'll show the frontend code for that route, but we have to create a backend here so we'll create a route.ts
+
+//! go to this route.ts in the api/v1/user/details
+
+
+
+
+
+
+
+
+//! 6) now this is how we can talk to the nextjs backend
+
+// export default async function Home() {
+
+//   //! we have to replace the route of the backend that we were using to the nextjs backend route
+//   const response = await axios.get("http://localhost:3000/api/v1/user/details");
+
+//   const data = response.data;
+
+//   return (
+//     <div className="h-screen w-full text-6xl text-center flex items-center justify-center">
+//       {data?.username}
+//       {data?.email}
+//     </div>
+//   );
+// }
+
+//! 7) this is how we make backend routes in nextjs
+
+
+//! now go to page.tsx of app directory
