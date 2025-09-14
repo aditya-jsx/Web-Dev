@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1) making a User model
+model User {
+  id        Int @default(autoincrement()) @id
+  email     String @unique
+  password  String
+}
+
+// 2) go back to api/v1/signup/route.ts
