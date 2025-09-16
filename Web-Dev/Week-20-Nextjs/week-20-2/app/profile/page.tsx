@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import axios from "axios"
 import { useEffect, useState } from "react"
@@ -71,6 +71,7 @@ import { useEffect, useState } from "react"
 
 
 //! 5) but if we use this original code then it'll throw an error that localStorage is not defined
+//! make sure to remove the "use client" before running the below code, otherwise, there will be infinite requests going from the client
 
 export default async function Profile(){
 
@@ -88,3 +89,6 @@ export default async function Profile(){
         </div>
     )
 }
+
+//! it'll give an error that the localStorage is not defined as there is no such thing as localStorage on the server.
+//! we can never send the token in the first request, so the request to fetch the users info will never work.
