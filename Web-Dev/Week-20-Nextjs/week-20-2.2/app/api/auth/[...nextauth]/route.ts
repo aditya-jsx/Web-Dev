@@ -87,8 +87,11 @@ const handler = NextAuth({
     //! by doing these we can add the providers but to make these work we have to provide the clientId and the clientSecret 
 
 
-]
+    ],
+    secret: process.env.NEXTAUTH_SECRET
 })
 
 export { handler as GET, handler as POST }
 
+
+//! To kow how can we handle the login anf logout from the home page, go to root's page.tsx
