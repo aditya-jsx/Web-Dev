@@ -9,6 +9,7 @@
 // }
 
 
+//! Notes:- https://projects.100xdevs.com/tracks/Next-Auth/c1Zwb52anryfZ91z2nND
 
 
 //! Here we'll learn about Next Auth, how to do auth with email pass, google, facebook, github etc.
